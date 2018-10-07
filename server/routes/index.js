@@ -9,9 +9,11 @@ router.get('/dimensions', async (req, res) => {
       'https://vehicles-staging.platform.autotrader.com.au/api/v1/dimensions',
       {
         params: {
-          make: req.params.make,
-          model: req.params.model,
-          year: req.params.year,
+          make: req.query.make,
+          make_seo: req.query.make_seo,
+          model: req.query.model,
+          model_seo: req.query.model_seo,
+          year: req.query.year,
         },
       },
     );
