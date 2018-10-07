@@ -1,5 +1,5 @@
 <template>
-  <div id="search" class="container">
+  <div class="container">
     <Header />
     <div class="text-wrapper">
       <div class="title">
@@ -18,6 +18,7 @@
       v-bind:models="models"
       v-bind:years="range(1960,2018)"
       v-bind:getModels="getModels"
+      v-bind:onSubmit="onSubmit"
     />
   </div>
 </template>
@@ -27,23 +28,33 @@ import Vue from 'vue';
 import axios from 'axios';
 import Header from '../components/Header.vue';
 import SearchFilter from '../components/SearchFilter.vue';
+import router from '../router';
 export default {
   name: 'SearchPage',
   data() {
     return { makes: [], models: [] };
   },
   methods: {
-    range: (start, end) => {
-      var ans = [];
-      for (let i = start; i <= end; i++) {
-        ans.push(i);
-      }
-      return ans;
+    range: function(start, end) {
+      if (start === end) return [start];
+      return [...this.range(start + 1, end), start];
     },
     getModels: function(makeId) {
       axios
         .get('/api/models', { params: { make_id: makeId } })
         .then(response => (this.models = response.data.data));
+    },
+    onSubmit: function(make, model, year) {
+      router.push({
+        name: 'Result',
+        params: {
+          make: make.name,
+          make_seo: make.name_seo,
+          model: model.name,
+          model_seo: model.name_seo,
+          year: year,
+        },
+      });
     },
   },
   mounted() {
