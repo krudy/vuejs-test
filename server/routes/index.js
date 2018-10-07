@@ -36,7 +36,10 @@ router.get('/makes', async (req, res) => {
 router.get('/models', async (req, res) => {
   try {
     const result = await axios.get(
-      'https://vehicles-staging.platform.autotrader.com.au/api/v1/models',
+      'https://vehicles-staging.platform.autotrader.com.au/api/v1/models?',
+      {
+        params: { make_id: req.query.make_id || '' },
+      },
     );
     res.send(result.data);
   } catch (e) {

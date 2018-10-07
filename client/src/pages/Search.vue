@@ -40,15 +40,14 @@ export default {
       }
       return ans;
     },
-    getModels: makeId => {
-      console.log(makeId);
+    getModels: function(makeId) {
+      axios
+        .get('/api/models', { params: { make_id: makeId } })
+        .then(response => (this.models = response.data.data));
     },
   },
   mounted() {
     axios.get('/api/makes').then(response => (this.makes = response.data.data));
-    axios
-      .get('/api/models')
-      .then(response => (this.models = response.data.data));
   },
   components: {
     Header,
