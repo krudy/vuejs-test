@@ -13,6 +13,9 @@ module.exports = {
     watchOptions: {
       poll: true,
     },
+    proxy: {
+      '/api': 'http://localhost:3001',
+    },
   },
   module: {
     rules: [
@@ -30,7 +33,7 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        loader: 'vue-svg-loader', // `vue-svg` for webpack 1.x
+        loader: 'vue-svg-loader',
       },
     ],
   },

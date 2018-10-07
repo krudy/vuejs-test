@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div id="search" class="container">
     <Header />
     <div class="text-wrapper">
       <div class="title">
@@ -13,14 +13,43 @@
         year for you to easily and quickly view all you need to know
       </div>
     </div>
-    <SearchFilter />
+    <SearchFilter
+      v-bind:makes="makes"
+      v-bind:models="models"
+      v-bind:years="range(1960,2018)"
+      v-bind:getModels="getModels"
+    />
   </div>
 </template>
 
-<script>
+<script defer>
+import Vue from 'vue';
+import axios from 'axios';
 import Header from '../components/Header.vue';
 import SearchFilter from '../components/SearchFilter.vue';
 export default {
+  name: 'SearchPage',
+  data() {
+    return { makes: [], models: [] };
+  },
+  methods: {
+    range: (start, end) => {
+      var ans = [];
+      for (let i = start; i <= end; i++) {
+        ans.push(i);
+      }
+      return ans;
+    },
+    getModels: makeId => {
+      console.log(makeId);
+    },
+  },
+  mounted() {
+    axios.get('/api/makes').then(response => (this.makes = response.data.data));
+    axios
+      .get('/api/models')
+      .then(response => (this.models = response.data.data));
+  },
   components: {
     Header,
     SearchFilter,

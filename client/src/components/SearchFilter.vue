@@ -1,71 +1,60 @@
 <template>
   <div class="filter-container">
-    <select v-model="make">
+    <select v-model="selectedMake" v-on:change="getModels(selectedMake.id)">
       <option disabled value="">Select Make</option>
-      <filter-option
-        v-for="make in placeholder.make"
+      <option
+        v-for="make in makes"
         v-bind:key="make.id"
-        v-bind:option="make.name"
-      ></filter-option>
+        v-bind:value="make"
+      >
+        {{ make.name }}
+      </option>
     </select>
-    <select v-model="model">
+    <select v-model="selectedModel">
       <option disabled value="">Select Model</option>
-      <filter-option
-        v-for="make in placeholder.model"
-        v-bind:key="make.id"
-        v-bind:option="make.name"
-      ></filter-option>
+      <option
+        v-for="model in models"
+        v-bind:key="model.id"
+        v-bind:value="model"
+      >
+        {{ model.name }}
+      </option>
     </select>
-    <select v-model="year">
+    <select v-model="selectedYear">
       <option disabled value="">Select Year</option>
-      <filter-option
-        v-for="make in placeholder.year"
-        v-bind:key="make.id"
-        v-bind:option="make.name"
-      ></filter-option>
+      <option v-for="year in years" v-bind:key="year" v-bind:value="year">{{year}}</option>
     </select>
-    <button class="filter-submit" v-on:click="result = `${make}+${model}+${year}`">Show Dimensions</button>
+    <button class="filter-submit">Show Dimensions</button>
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
-
-Vue.component('filter-option', {
-  props: ['option'],
-  template: '<option>{{ option }}</option>',
-});
-
 export default {
-  name: 'search-filter',
+  name: 'SearchFilter',
   props: {
-    filter1: {
-      type: String,
-      required: false,
+    makes: {
+      type: Array,
+      required: true,
+    },
+    models: {
+      type: Array,
+      required: true,
+    },
+    years: {
+      type: Array,
+      required: true,
+    },
+    getModels: {
+      type: Function,
+      required: true,
     },
   },
   data() {
     return {
-      placeholder: {
-        make: [
-          { id: 1, name: 'make 1' },
-          { id: 2, name: 'make 2' },
-          { id: 3, name: 'make 3' },
-        ],
-        model: [
-          { id: 1, name: 'model 1' },
-          { id: 2, name: 'model 2' },
-          { id: 3, name: 'model 3' },
-        ],
-        year: [
-          { id: 1, name: 'year 1' },
-          { id: 2, name: 'year 2' },
-          { id: 3, name: 'year 3' },
-        ],
-      },
-      make: '',
-      model: '',
-      year: '',
+      selectedMake: '',
+      selectedModel: '',
+      selectedYear: '',
       result: '',
     };
   },

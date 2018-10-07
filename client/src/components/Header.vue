@@ -9,7 +9,7 @@
 <script>
 import Logo from '../static/autotrader_logo.svg';
 export default {
-  name: 'page-header',
+  name: 'Header',
   components: {
     Logo,
   },
