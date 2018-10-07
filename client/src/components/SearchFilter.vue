@@ -1,5 +1,6 @@
 <template>
   <div class="filter-container">
+    <div class="title">Search Dimensions</div>
     <select v-model="selectedMake" v-on:change="getModels(selectedMake.id)">
       <option disabled value="">Select Make</option>
       <option
@@ -24,7 +25,7 @@
       <option disabled value="">Select Year</option>
       <option v-for="year in years" v-bind:key="year" v-bind:value="year">{{year}}</option>
     </select>
-    <button class="filter-submit">Show Dimensions</button>
+    <button class="filter-submit" v-on:click="onSubmit(selectedMake, selectedModel, selectedYear)">Show Dimensions</button>
   </div>
 </template>
 
@@ -49,6 +50,10 @@ export default {
       type: Function,
       required: true,
     },
+    onSubmit: {
+      type: Function,
+      required: true,
+    },
   },
   data() {
     return {
@@ -67,6 +72,10 @@ export default {
   border-radius: 4px;
   padding: 20px;
   margin: 10px 24px;
+}
+.title {
+  font-size: 24px;
+  color: #ffffff;
 }
 .filter-submit {
   padding: 10px;
